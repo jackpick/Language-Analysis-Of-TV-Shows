@@ -34,6 +34,7 @@ titles.close()
 n=0
 # loop through every title in list
 for title in TitlesList:
+    a=0
     # add 1 to n for the episode number
     n=n+1
     # separate out lines
@@ -46,16 +47,20 @@ for title in TitlesList:
     script = open(title, encoding="utf-8")
     # loop through every line in the txt file
     for line in script:
+        # loops through every word in each line
+        for everyword in line:
+            # finds how many words their are in each txt file
+            a=a+1
         # loop through every word in the word list you are checking for
         for word in WordsList:
             # check if word you are looking for is in that line
             if word in line:
                 # add the word to a list
                 WordCount.append(word)
-    # show how many words are in this episode
-    print (len(WordCount))
+    # show the proportion of swearwords there are in this episode
+    print ((len(WordCount))/a)
     # add this to a list to be plotted later
-    y.append((len(WordCount)))
+    y.append((len(WordCount))/a)
     # add the episode number to a list to be plotted later
     x.append(n)
     # empty list
