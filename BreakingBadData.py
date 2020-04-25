@@ -48,6 +48,7 @@ for title in TitlesList:
     script = open(title, encoding="utf-8")
     # loop through every line in the txt file
     for line in script:
+        line = line.lower()
         # loops through every word in each line
         for everyword in line:
             # finds how many words their are in each txt file
@@ -102,9 +103,9 @@ plt.plot(x5, y5, label = "Season 5 Finale")
 # naming the x axis 
 plt.xlabel('Episode Number') 
 # naming the y axis 
-plt.ylabel('Number Of Swear Words')   
+plt.ylabel('Proportion Of Swear Words')   
 # giving a title to my graph 
-plt.title('Number of Swearwords in Each Breaking bad episode')
+plt.title('Proportion of Swearwords in Each Breaking bad episode')
 # show a legend on the plot 
 plt.legend() 
 # function to show the plot 
