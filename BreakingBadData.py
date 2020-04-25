@@ -29,11 +29,13 @@ for q in titles:
     TitlesList.append(q)
 # close txt file
 titles.close()
-
+# set up BiggestWordCount as a variable so the checks can be started from here
+BiggestWordCount = 0
 # set up n as a variable
 n=0
 # loop through every title in list
 for title in TitlesList:
+    a=0
     # add 1 to n for the episode number
     n=n+1
     # separate out lines
@@ -46,25 +48,53 @@ for title in TitlesList:
     script = open(title, encoding="utf-8")
     # loop through every line in the txt file
     for line in script:
+        # loops through every word in each line
+        for everyword in line:
+            # finds how many words their are in each txt file
+            a=a+1
         # loop through every word in the word list you are checking for
         for word in WordsList:
             # check if word you are looking for is in that line
             if word in line:
                 # add the word to a list
                 WordCount.append(word)
-    # show how many words are in this episode
-    print (len(WordCount))
+    # set the proportion of swearwords there are to a variable
+    WordCountLength=(len(WordCount))/a
+    # show the proportion of swearwords there are in this episode
+    print (WordCountLength)
+    # check if this is the biggest word count yet
+    if BiggestWordCount<WordCountLength:
+        # if it is, set its word count to the biggest word count
+        BiggestWordCount = WordCountLength
     # add this to a list to be plotted later
-    y.append((len(WordCount)))
+    y.append((len(WordCount))/a)
     # add the episode number to a list to be plotted later
     x.append(n)
     # empty list
     WordCount = []
 
 
+# points so seasons lines can be plotted
+x1 = [7,7] 
+y1 = [0,BiggestWordCount]
+x2 = [20, 20] 
+y2 = [0,BiggestWordCount]
+x3 = [33, 33] 
+y3 = [0,BiggestWordCount]
+x4 = [46, 46] 
+y4 = [0,BiggestWordCount]
+x5 = [62, 62] 
+y5 = [0,BiggestWordCount] 
 
-# plotting the points
-plt.plot(x, y)
+# plotting the points of graph
+plt.plot(x, y,)
+
+# seaparating the gaph with seasons
+plt.plot(x1, y1, label = "Season 1 Finale")
+plt.plot(x2, y2, label = "Season 2 Finale")
+plt.plot(x3, y3, label = "Season 3 Finale")
+plt.plot(x4, y4, label = "Season 4 Finale")
+plt.plot(x5, y5, label = "Season 5 Finale")
 
 # could have used this instead but didnt look as good:
 #plt.scatter(x, y, label= "stars", color= "green", marker= "*", s=30)
@@ -74,6 +104,8 @@ plt.xlabel('Episode Number')
 # naming the y axis 
 plt.ylabel('Number Of Swear Words')   
 # giving a title to my graph 
-plt.title('Number of Swearwords in Each Breaking bad episode')   
+plt.title('Number of Swearwords in Each Breaking bad episode')
+# show a legend on the plot 
+plt.legend() 
 # function to show the plot 
 plt.show() 
