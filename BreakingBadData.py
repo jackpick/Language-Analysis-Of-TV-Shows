@@ -1,16 +1,30 @@
-# importing the required module 
+# importing the required modules
+
+from sklearn import linear_model
+
 import matplotlib.pyplot as plt
+import numpy as np
 # open the txt file containing the words you are searching for
 words = open ("Words.txt", encoding="utf-8")
 # open the txt file containing the titles you are looking for
 titles = open ("Titles.txt", encoding="utf-8")
+# open the txt file containing the IMDB Rankings you are searching for
+IMDBRankings = open ("IMDBRanking.txt", encoding="utf-8")
 # set up lists
 WordCount=[]
 WordsList = []
 TitlesList =[]
-y=[]
+IMDBRankingList = []
+EpisodeSwearWordNumber = []
+#y=[]
 x=[]
 
+# add all IMDB rankings to a list
+for t in IMDBRankings:
+    # remove trailing new line
+    t = t.rstrip("\n")    
+    # add element to list
+    IMDBRankingList.append(float(t))
 # add all words to a list
 for g in words:
     # remove trailing new line
@@ -38,12 +52,6 @@ for title in TitlesList:
     a=0
     # add 1 to n for the episode number
     n=n+1
-    # separate out lines
-    print ("")
-    # remove txt from title when it is shown
-    ShowTitle = title.rstrip(".txt")
-    # show title
-    print (ShowTitle)
     # open the txt file for the corresponding title
     script = open(title, encoding="utf-8")
     # loop through every line in the txt file
@@ -61,19 +69,17 @@ for title in TitlesList:
                 WordCount.append(word)
     # set the proportion of swearwords there are to a variable
     WordCountLength=(len(WordCount))/a
-    # show the proportion of swearwords there are in this episode
-    print (WordCountLength)
     # check if this is the biggest word count yet
     if BiggestWordCount<WordCountLength:
         # if it is, set its word count to the biggest word count
         BiggestWordCount = WordCountLength
     # add this to a list to be plotted later
-    y.append((len(WordCount))/a)
+    EpisodeSwearWordNumber.append((len(WordCount))/a)
     # add the episode number to a list to be plotted later
     x.append(n)
     # empty list
     WordCount = []
-
+    
 
 # points so seasons lines can be plotted
 x1 = [7,7] 
@@ -87,8 +93,9 @@ y4 = [0,BiggestWordCount]
 x5 = [62, 62] 
 y5 = [0,BiggestWordCount] 
 
-# plotting the points of graph
-plt.plot(x, y,)
+
+# plotting the points of swearword graph
+#plt.plot(IMDBRankingList, y)
 
 # seaparating the gaph with seasons
 plt.plot(x1, y1, label = "Season 1 Finale")
@@ -97,16 +104,23 @@ plt.plot(x3, y3, label = "Season 3 Finale")
 plt.plot(x4, y4, label = "Season 4 Finale")
 plt.plot(x5, y5, label = "Season 5 Finale")
 
+coef = np.polyfit(x, EpisodeSwearWordNumber,1)
+poly1d_fn = np.poly1d(coef) 
+# poly1d_fn is now a function which takes in x and returns an estimate for y
+
+plt.plot(x, EpisodeSwearWordNumber, 'yo', x, poly1d_fn(x), '--k', color= "green")
+plt.xlim(0, 63)
+plt.ylim(0, 0.0037)
+
 # could have used this instead but didnt look as good:
-#plt.scatter(x, y, label= "stars", color= "green", marker= "*", s=30)
-  
+#plt.scatter(IMDBRankingList, EpisodeSwearWordNumber, color= "green", marker= "x", s=10)
 # naming the x axis 
 plt.xlabel('Episode Number') 
 # naming the y axis 
 plt.ylabel('Proportion Of Swear Words')   
 # giving a title to my graph 
-plt.title('Proportion of Swearwords in Each Breaking bad episode')
+plt.title('Proportion of Swear Words in each Breaking Bad episode')
 # show a legend on the plot 
 plt.legend() 
 # function to show the plot 
-plt.show() 
+plt.show()
