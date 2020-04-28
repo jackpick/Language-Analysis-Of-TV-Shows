@@ -1,7 +1,7 @@
 # importing the required modules
 
 from sklearn import linear_model
-
+from scipy import stats
 import matplotlib.pyplot as plt
 import numpy as np
 # open the txt file containing the words you are searching for
@@ -80,6 +80,10 @@ for title in TitlesList:
     # empty list
     WordCount = []
     
+# find the correlation of the points    
+correlation, p_value = stats.pearsonr(x, EpisodeSwearWordNumber)
+# show the correlation
+print (correlation)
 
 # points so seasons lines can be plotted
 x1 = [7,7] 
